@@ -1,0 +1,37 @@
+//max salary of each dept//
+select d.DepartmentName  , max(salary) AS MaxSalary
+from employees e
+inner join  departments d
+on  d.DepartmentID = e.DepartmentID
+group by DepartmentName
+ORDER BY
+    MaxSalary DESC;
+
+// top 2 salaries of Department //
+select top 2 d.DepartmentName  , max(salary) AS MaxSalary
+from employees e
+inner join  departments d
+on  d.DepartmentID = e.DepartmentID
+group by DepartmentName
+ORDER BY
+    MaxSalary DESC;
+
+//employee max salary in their department//
+SELECT d.DepartmentName, e.FirstName, e.LastName, e.Salary
+FROM Employees e
+INNER JOIN Departments d ON e.DepartmentID = d.DepartmentID
+WHERE e.Salary = (
+    SELECT MAX(Salary)
+    FROM Employees
+    WHERE DepartmentID = e.DepartmentID
+);
+/////////////////////////////////////////
+//2nd highest salary//
+select FirstName,lastname,salary
+from
+(
+select firstname,lastname,salary,
+DENSE_RANK () over (order by salary desc) AS SalaryRank
+from   employees  ) e
+
+where e.SalaryRank=2
